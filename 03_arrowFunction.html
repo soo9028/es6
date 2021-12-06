@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        
+        <script>
+
+            //화살표 함수 (Arrow Function) - JAVA에서는 람다식표기법
+
+            //1. 일반적인 함수선언
+            function show(){
+                document.write("show!! <br>");
+            }
+            show(); //함수호출
+
+            //2. 함수를 변수에 대입하여 사용('익명함수')
+            let output= function(){
+                document.write("output!! <br>");
+            }
+            //익명함수를 가지고 있는 변수명이 함수명의 역할을 함
+            output();
+
+            //3. 위 '익명함수'를 화살표함수로 변경하여 사용
+            let display= ()=>{
+                document.write("display!! <br>");
+            }
+            display();
+
+            //당연히 화살표함수도 파라미터 전달 가능
+            let display2= (name)=>{
+                document.write("display2 : " + name + " <br>");
+            }
+            display2("sam");
+
+            //4. 화살표함수의 간단 표기법!
+            //1) 파라미터가 1개뿐이라면 ()를 생략할 수 있음
+            let display3= name=>{
+                document.write("display3 : " + name + " <br>");
+            }
+            display3("robin");
+
+            //2) 만약 함수의 실행문이 1줄이라면.. {}도 생략가능
+            let display4= name=> document.write("display4 : " + name + " <br>");
+            display4("hong");
+
+            //3) 만약 파라미터가 0개이거나 2개 이상이면...()생략불가
+            let display5= ()=> document.write("display5<br>");
+            let display6= (name, age)=> document.write(name+", "+age +"<br>");
+
+        </script>
+
+        <!-- 실제 화살표함수는 이벤트처리 콜백함수 작업시에 많이 사용됨 -->
+        <button id="b1">button</button>
+        <p id="p1"></p>
+
+        <script>
+            //1. 예전방식
+            let b1= document.getElementById('b1');
+            b1.onclick= function(){
+                document.getElementById('p1').innerHTML= "clicked button!";
+            }
+
+            //2. 화살표함수
+            b1.onclick= ()=>document.getElementById('p1').innerHTML= "clicked button!";
+
+            //3. 반복문 처리시에 특별해짐
+            let arr= new Array(10,20,30);
+            //css선택자로 p1 아이디를 가진 요소 찾기
+            document.querySelector('#p1').innerHTML= arr[0]+"<br>";
+
+            //반복문으로 요소들 접근하기
+            for(let i=0; i<arr.length; i++){
+                document.querySelector('#p1').innerHTML += arr[i]+"<br>";
+            }
+
+            //in키워드 이용
+            for(index in arr){ //인덱스번호를 알아서 카운팅...
+                document.querySelector('#p1').innerHTML += arr[index]+"<br>";
+            }
+            document.write("<hr>");
+
+            //인덱스 번호를 이용하면 접근시 잘못 된 위치를 제어할 수 있음. 실수!
+            //배열객체가 가진 forEach(), map()메소드를 더 선호함.
+            arr.forEach( function(value, index, array){
+                document.write(index+" : "+ value +"<br>");
+            });
+
+            arr.forEach( function(value){
+                document.write(value+"<br>");
+            });
+            document.write("<hr>");
+
+            arr.forEach( (value)=>{
+                document.write(value+"<br>");
+            });
+            document.write("<hr>");
+
+            arr.forEach( value=>{
+                document.write(value+"<br>");
+            });
+            document.write("<hr>");
+
+            arr.forEach( value=>document.write(value+"<br>") );
+            document.write("<hr>");
+
+            //map() 
+            //예) 배열의 각 요소에 1을 더하여 리턴 [새로운 배열을 리턴]
+            let arr2= arr.map( function(value){
+                return value+1;
+            });
+            document.write("결과 : " + arr2 +"<br>");
+
+            let arr3= arr.map( (value)=>{ return value+1;} );
+            document.write("결과 : " + arr3 +"<br>");
+
+            //화살표함수의 (), {}를 생략 - {}를 생략할때는 반드시 return키워드도 생략, ;도 삭제 
+            arr3= arr.map( value=> value+1 );
+            document.write("결과 : " + arr3 +"<br>");
+
+        </script>
+
+        <hr>
+
+        <!-- 익명함수와 화살표함수를 이용하여 이벤트콜백함수를 사용할때 차이점 : this키워드 -->
+        <button id="b2">버튼</button>
+        <p id="p2"></p>
+
+        <script>
+
+            let b2= document.getElementById('b2');
+
+            //클릭이벤트 처리
+            //1) 익명함수
+            b2.onclick= function(){
+                document.getElementById('p2').innerHTML= this; //이벤트를 발생한 객체
+
+            }
+
+            //2) 화살표함수
+            b2.onclick= ()=>{
+                document.getElementById('p2').innerHTML= this; //이벤트 객체와 상관없는 코들 감싸는 객체[window객체]
+
+            }
+
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        
+        <script>
+
+            // ECMAscript(2015년도 발표 버전 : ES6 or ES2015)의 새로운 것들
+
+            //1. 변수 선언 키워드 추가 : let, const
+
+            //기존의 var변수
+            var a=10;
+            document.write(a +"<br>");
+
+            //같은이름의 변수선을 또 하면?
+            var a=20; //"var 키워드만 무시됨"
+            document.write(a +"<br>");
+
+            //새로운 키워드 'let'
+            let b= 100;
+            document.write(b +"<br>");
+
+            //let b= 200; //ERROR - 치명적에러 : script전체가 실행되지 않음.
+            //document.write(b +"<br>");
+
+            b=200;
+            document.write(b +"<br>");
+
+            //const는 상수화된 변수 선언 키워드 - c언어와 같음, java의 final키워드
+            const c=1000;            
+            document.write(c +"<br>");
+
+            //let과 다르게 값 변경이 불가능한 변수
+            //c= 2000;   // 예외상황 [이 라인 이후부터 동작 안함]
+            //document.write(c +"<br>");
+
+            //const c=1000;  //치명적 에러
+            //document.write(c +"<br>");
+
+            // let과 var의 인식범위 차이
+            // var은 함수의 지역변수
+            // let은 블럭{}의 지역변수
+
+            if(true){
+                var g=10; //var은 if{}를 지역으로 인지하지 않음
+                document.write(g +"<br>"); //10
+            }
+            document.write(g +"<br>"); //10
+
+            if(true){
+                let k=200; //let은 if{}를 지역으로 인지함
+                document.write(k +"<br>"); //200
+            }
+            //document.write(k +"<br>"); //k를 인식하지 못함
+
+            function aaa(){
+                var m=1000; //aaa()의 지역변수
+                document.write(m +"<br>");
+            }
+            aaa();
+            //document.write(m +"<br>");//인식불가
+
+            for(var i=0; i<3; i++){
+                document.write(i +"<br>");
+            }
+            document.write("i : " + i +"<br>");
+
+            for(let d=0; d<3; d++){
+                document.write(d +"<br>");
+            }
+            //document.write("d : " + d +"<br>"); //error - 지역변수 인식불가
+            //c, java와 동일한 특징
+
+            //let, const 모두 동적 타입이기에 자료형은 바꿀수 있음.
+            let s="aaa";
+            document.write(s +"<br>");
+
+            s= 500;
+            document.write(s +"<br>");
+
+            s= true;
+            document.write(s +"<br>");
+
+            s= new Date();
+            document.write(s +"<br>");
+
+            s= function(){
+                document.write("ssss<br>");
+            }
+            s();
+
+            s= undefined;
+            document.write(s +"<br>");
+
+            const x=100;
+            const y="sam";
+
+
+        </script>
+
+    </body>
+</html>

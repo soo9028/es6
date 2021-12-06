@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        
+        <script>
+
+            //JS의 객체를 생성하는 방법
+            //1. leteral 객체 - {name:"sam", age:20, show:function(){}} : 객체를 만들면서 설계하는 방식
+            //2. 생성자함수 - function Student(){ this.name="sam"; this.show=function(){} } - new키워드로 객체 생성
+
+            //3. class키워드 등장 - 객체의 설계도면을 만드는 분법(JAVA, C++과 같은역할)
+
+            //1) 클래스 선언 [ 객체를 만든 것이 아님 ]
+            class Person{
+                //멤버변수(속성- property)
+                //기존의 방법과 다름
+                //let name; //error
+                //this.name; //error
+
+                //그냥 변수명만 작성
+                name="sam"; //명시적초기화
+                age; //초기화 없이 표기가능 
+
+                //멤버를 만드는 2번째 방법 - 생성자함수 이용
+                constructor(){
+                    this.age=20; //멤버변수값 초기화
+                    this.address="seoul"; //멤버변수 선언 및 초기화
+
+                    //let gender="male"; //이건 멤버변수가 아니라 지역변수임
+                }
+
+                //멤버변수값들을 출력해주는 기능 멤버함수[메소드]
+                //function show(){} //class안에서는 function키워드 금지
+                show(){
+                    //document.write("name: "+ name); //멤버변수 name으로 인식되지 않음. (전역변수인가? -에러)
+
+                    //class안에서 멤버를 사용할때는 무조건 this키워드 필요
+                    document.write("name: "+ this.name+", age : " + this.age+" , address:" +this.address +"<br>");
+                }
+
+            }
+
+            //2)객체 생성
+            let p= new Person();
+            // document.write("name : " + p.name +"<br>");
+            // document.write("name : " + p.age +"<br>");
+            // document.write("name : " + p.address +"<br>");
+            p.show();
+
+            let p2= new Person();
+            p2.show();
+
+        </script>
+
+        <script>
+            //같은 .html안에서는 다른 스크립트의 class 도 사용가능함
+            let person3= new Person();
+            person3.name="robin";
+            person3.age=25;
+            person3.show();
+
+            //객체를 생성하면서 값을 전달하기(생성자함수에 파라미터 전달)
+            class Member{
+                //생성자함수
+                constructor(id, pw){
+                    if(id==undefined) this.id= "no name";
+                    else this.id= id;
+
+                    if(pw==undefined) this.pw="";
+                    else this.pw= pw;
+                }
+
+                //생성자함수 오버로딩(X 안됨) - 에러 : 문법적으로 오버로딩이 없음
+                // constructor(){
+                //     this.id= "익명";
+                //     this.pw= "";
+                // }
+
+                show(){
+                    document.write("ID : " + this.id +", PW : " + this.pw +"<br>" );
+                }
+
+                output(){
+                    document.write("no data <br>");
+                }
+
+                //이건 오버라이드임
+                output(a){
+                    document.write("data :" + a +"<br>");
+                }
+
+                //리턴이 있는 메소드
+                add(a,b){
+                    return a+b;
+                }
+
+                //익명함수로 메소드를 만드는 방법
+                show= function(){
+
+                }
+
+                show2= this.show;
+
+                //경우에 따라서는 class밖에서 만든 일반 함수를 멤버메소드로
+                //사용할 수 있도록 등록이 가능함
+                show3= aaa;
+            }//Member class
+
+            //객체 생성
+            let member= new Member("mrhi", "1234");
+            member.show();
+
+            //값전달 안하면?
+            let member2= new Member();
+            member2.show(); //undefined
+
+            //생성자 함수 오버로딩이 없음.
+            //일반 메소드도 오버로딩은 없음 (대신에 오버라이딩으로 됨)
+            member2.output();
+            member2.output(10);
+
+            //리턴을 해주는 메소드 호출
+            let sum= member2.add(5, 3);
+            document.write("sum : " + sum);
+
+            //아주 특이하게 클래스에 멤버함수(메소드)를 만드는 방법
+            function aaa(){
+                document.w("aaa : " + this.id +", " + this.pw +"<br>");
+            }
+
+            member2.show3();
+
+        </script>
+
+        <hr>
+        <hr>
+
+        <h3 id="hh"></h3>
+
+        <script>
+
+            let hh= document.getElementById('hh');
+
+            // 클래스의 상속!!! 
+
+            //상속해줄 클래스
+            class Human{
+                constructor(name, age){
+                    this.name= name;
+                    this.age= age;
+                }
+                show(){
+                    hh.innerHTML= "name:"+this.name+" , " + "age:"+this.age;
+                }
+            }
+
+            let h= new Human("sam", 20);
+            h.show();
+
+            //상속받기
+            class Student extends Human{
+                //아무것도 안써도 name, age, show()를 보유한 상태임
+                constructor(name, age, major){
+                    //JS는 상속을 받았다면 부모생성자를 호출하는 코드가 명시적으로 있어야 함.
+                    // this.name= name;
+                    // this.age= age;
+                    super(name, age); //부모생성자 호출
+                    this.major= major;
+                }
+                show(){
+                    super.show();
+                    hh.innerHTML +=" , major : " + this.major;
+                }
+            }
+
+            let s= new Student("robin", 25, "android");
+            s.show();            
+
+        </script>
+
+        <hr>
+
+        <script>
+            // 정적멤버 static 키워드 추가!
+            class First{
+                static show(){
+                    document.write("static show method...");
+                }
+            }
+            //정적멤버메소드 사용 - 객체생성없이 클래스명으로 호출
+            First.show();
+
+            class Second{
+                static name="sam";
+                constructor(){
+                    //static멤버변수?
+                    //static this.name="aaa"; //error
+                }
+            }
+            //정적멤버변수 사용
+            document.write("name : " + Second.name +"<br>");
+
+            //자바와 다르게 객체를 만들어서 static변수를 사용하는 코드 주의!!
+            let k= new Second();
+            document.write("name:" + k.name +"<br>"); //static은 객체의 멤버가 아니라 클래스의 멤버임
+
+            //static메소드를 객체로 접금하면 인식이 안되는 메소드여서 에러남
+            let f= new First();
+            f.show(); //객체에는 show()메소드가  없어서 에러남
+
+        </script>
+
+        <hr>
+        <hr>
+
+        <script>
+
+            //구조분해할당!
+            class Nice{
+                name="kim";
+                age=20;
+                address="seoul";
+                show(){
+
+                }
+            }
+
+            let nice= new Nice();
+            document.write("name : " + nice.name +"<br>");
+            document.write("name : " + nice.age +"<br>");
+            document.write("name : " + nice.address +"<br>");
+
+            //객체의 특정 멤버를 쏙 뽑아서 일반 변수에 대입하여 사용하는 문법!
+            let {name, age, show}= nice; 
+            document.write("name : " + name +"<br>");
+            document.write("name : " + age +"<br>");
+            show();
+
+            //구조분해할당을 함수의 파라미터로 객체를 전달할때 꽤 유용함
+            function showAddress( {address}){
+                document.write("address : " + address);
+            }
+            showAddress(nice);
+
+            //구조분해할당할때 멤버변수명과 다른 이름으로 할당 못함
+            const {nam}= nice; //이러면 구조분해 할당 못함
+            document.write("nam : " + nam +"<br>"); //undefined
+
+            //구조분해할당의 아주 특이한 문법
+            class Hello{
+                aaa=10;
+                bbb=20;
+                ccc=30;
+                ddd=40;
+            }
+
+            const hello= new Hello();
+            const {aaa, ...rest}= hello;
+            document.write("aaa: " + aaa+"<br>");
+            document.write("bbb: " + rest.bbb+"<br>");
+            document.write("bbb: " + rest.ccc+"<br>");
+            document.write("bbb: " + rest.ddd+"<br>");
+
+            
+
+
+        </script>
+
+
+
+    </body>
+</html>
